@@ -35,9 +35,9 @@ public class Platform {
 
     /**
      * 创建角色
-     * @param roleType1 用户 & 管理员
-     * @param roleType2 具体类型
-     * @return role
+     * @param roleType
+     * @return
+     * @param <T>
      */
     public <T extends Role> T createRole(RoleType roleType){
         RoleFactory factory = RoleFactory.getInstance();
