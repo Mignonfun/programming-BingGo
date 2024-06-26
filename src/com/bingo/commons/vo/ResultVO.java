@@ -46,6 +46,9 @@ public class ResultVO<T> {
     public static<T> ResultVO<T> success(String msg,T data){
         return new ResultVO<>(ResponseType.SUCCESS,data);
     }
+    public static<T> ResultVO<T> success(String code,String msg,T data){
+        return new ResultVO<>(code,msg,data);
+    }
 
 
     public static<T> ResultVO<T> success(String msg){
