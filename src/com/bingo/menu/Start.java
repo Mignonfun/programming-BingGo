@@ -1,7 +1,7 @@
 package com.bingo.menu;
 
 import com.bingo.business.account.AccountService;
-import com.bingo.commons.constants.ListConstants;
+import com.bingo.commons.constants.CollConstants;
 import com.bingo.commons.enums.RoleType;
 import com.bingo.commons.pojo.identity.Role;
 import com.bingo.commons.pojo.identity.User;
@@ -16,10 +16,10 @@ import java.util.List;
  * @description 登录界面
  * @Date 2024/6/5
  */
-public class Login {
+public class Start {
 
-    public static <T extends Role> T login() {
-        List<String> login = ListConstants.LOGIN;
+    public static <T extends Role> ResultVO<T> login() {
+        List<String> login = CollConstants.LOGIN;
         GlobalFormatUtil.commands(login);
         int inputChar = InputUtil.inputChar(login.size());
         RoleType roleType = null;
@@ -28,17 +28,17 @@ public class Login {
             case 2 -> roleType = RoleType.MERCHANT;
             case 3 -> roleType = RoleType.PLATFORM_ADMIN;
             case 4 -> {
-                return null;
+                return ResultVO.fail();
             }
         }
         String account = InputUtil.inputString("请输入账号：");
         String pwd = InputUtil.inputString("请输入密码：");
         ResultVO<Role> resultVO = AccountService.login(account, pwd, roleType);
-        return (T) resultVO.getData();
+        return (ResultVO<T>) resultVO;
     }
 
     public static void register() {
-        List<String> register = ListConstants.REGISTER;
+        List<String> register = CollConstants.REGISTER;
         GlobalFormatUtil.commands(register);
         int inputChar = InputUtil.inputChar(register.size());
 
@@ -79,5 +79,4 @@ public class Login {
         }
         return InputUtil.inputString("请输入您的"+str+"：");
     }
-
 }
