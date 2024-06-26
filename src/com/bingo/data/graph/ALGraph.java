@@ -35,14 +35,7 @@ public class ALGraph {
         }
         return index;
     }
-    /**
-     * 功能：判别两个顶点是否相邻
-     * 参数：
-     * u,v -- 两个顶点的 id
-     * 返回值：
-     * false -- 不是相邻顶点
-     * true -- 是相邻顶点
-     */
+    //    判断两个节点是否相邻
     public boolean isAdjVertex(int u, int v) {
         if(u == v) return false;
         int uIndex = findNode(u);
@@ -60,22 +53,14 @@ public class ALGraph {
         }
         return yn;
     }
-    /**
-     * 功能：在图中增加节点
-     * 参数：
-     * id -- 顶点 id
-     * info -- 顶点信息
-     * 返回值：
-     * false -- 增加失败
-     * true -- 增加成功
-     */
+    //    添加结点(自定义id)
     public boolean addNode(int id,String info) {
         if(findNode(id) >= 0) return false;
         VNode node = new VNode(id,info);
         vexs[vexNum++] = node;
         return true;
     }
-//    自增方式添加节点
+    //    添加节点(id自增)
     public boolean addNode(String info) {
         int id=-1;
         for(int i=0;i<vexNum;i++){
@@ -95,6 +80,7 @@ public class ALGraph {
         return true;
     }
 
+    //自增_快排
     private void QuickSort(VNode A[],int low,int high){
         int pivotpos;                               //枢纽位置
         if(low<high){
@@ -103,7 +89,7 @@ public class ALGraph {
             QuickSort(A,low,pivotpos-1);
         }
     }
-    //划分原表为左右两个部分
+    //自增_划分原表为左右两个部分
     private int Partition(VNode A[],int low,int high){
         VNode pivot=A[low];							//第一个元素作为枢轴
         while(low<high){							//用low、high搜索枢轴的最终位置
@@ -116,7 +102,7 @@ public class ALGraph {
         return low;
     }
 
-//    根据b+树索引添加顶点
+    //    根据b+树索引添加顶点
     public boolean addNode_byList(LinkedList<String> list){
         for(String s:list){
             if(!addNode(s)){
@@ -125,14 +111,7 @@ public class ALGraph {
         }
         return true;
     }
-    /**
-     * 功能：在图中增加（无向）边
-     * 参数：
-     * u,v -- 顶点 id
-     * 返回值：
-     * false -- 增加失败
-     * true -- 增加成功
-     */
+    //    根据node.id添加边
     public boolean addEdge(int u,int v) {
         if(u == v) return false;
         int uIndex = findNode(u);
@@ -208,14 +187,7 @@ public class ALGraph {
         }
         return true;
     }
-    /**
-     * 功能：删除图中顶点
-     * 参数：
-     * u -- 顶点 id
-     * 返回值：
-     * false -- 失败
-     * true -- 成功
-     */
+    //    根据node.id删除顶点
     public boolean removeNode(int u) {
         int uIndex = findNode(u);
         if(uIndex < 0) return false;
@@ -261,14 +233,7 @@ public class ALGraph {
         }
         return true;
     }
-    /**
-     * 功能：删除图中（无向）边
-     * 参数：
-     * u,v -- 顶点 id
-     * 返回值：
-     * false -- 失败
-     * true -- 成功
-     */
+    //    根据node.id删除边
     public boolean removeEdge(int u,int v) {
         if(u == v) return false;
         int uIndex = findNode(u);
@@ -310,7 +275,7 @@ public class ALGraph {
 
         return true;
     }
-//    拿到一个顶点的所有边
+    //    拿到一个顶点的所有边
     public LinkedList<String> getAllEdge(int u){
         if(u<0) return new LinkedList<>();          //返回一个空的list
         LinkedList<String> res=new LinkedList<>();
@@ -318,12 +283,23 @@ public class ALGraph {
         while (cur != null) {
             res.add(vexs[cur.adjVex].info);
             VNode v = vexs[cur.adjVex];
-            System.out.print("\t"+v.id+"("+v.info+")");
             cur = cur.nextArc;
         }
         return res;
     }
-//    显示邻接表
+    //    拿到一个顶点边的总数
+    public int getEdgeNum(int u){
+        if(u<0) return -1;          //返回0
+        int num=0;
+        ArcNode cur = vexs[u].firstArc;             //第一个边
+        while (cur != null) {
+            num++;
+            cur = cur.nextArc;
+        }
+        return num;
+
+    }
+    //    显示邻接表
     public void showGraph() {
         System.out.println("\n 无向图有"+vexNum+"顶点和"+edgeNum+"边\n");
         System.out.println("\t 结点\t 相邻边");
@@ -340,7 +316,7 @@ public class ALGraph {
             System.out.println();
         }
     }
-//    将邻接表生成为String：String[]的形式
+    //    将邻接表生成为String：String[]的形式
     public Map<String,LinkedList<String>> getAdjacencyList() {
         Map<String,LinkedList<String>> map=new HashMap<>();
         ArcNode p;

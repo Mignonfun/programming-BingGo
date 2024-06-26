@@ -1,6 +1,7 @@
 package com.bingo.data.bpFileTree;
 
 
+
 import com.bingo.data.fileUtil.FileProcessor;
 
 import java.io.File;
@@ -60,7 +61,7 @@ public class BpFileTree {
                 //case1:如果是中间节点：处理孩子
                 if(!filp.exist(path+"\\data")){
                     rchild=keys.get(mid);
-                                                                                                            //lchild
+                    //lchild
                     if(!flag)//如果是在两层以上就不用cut了
                         filp.folderCut_RemainBag(path+"\\"+lchild,path+"\\"+lchild+"\\"+lchild);    //先复制会引起冲突的文件夹
                     for(int i=0;i<=mid;i++){
@@ -184,7 +185,7 @@ public class BpFileTree {
             filp.folderRename(path,keys.get(0));
         }
     }
-//    public void insert(String data) throws IOException {
+    //    public void insert(String data) throws IOException {
 //        String suitLeaf = findSuitLeaf(root,data);
 //        addData(suitLeaf,data);
 //    }
@@ -214,7 +215,7 @@ public class BpFileTree {
         }
         return false;
     }
-//    找到data所在的叶子文件夹
+    //    找到data所在的叶子文件夹
     public String find(String data){
         String[] paths = findSuitLeaf_remove(root,data,new String[2]);
         String suitLeaf=paths[1];
@@ -260,9 +261,9 @@ public class BpFileTree {
                 filp.folderRename(paths[0],keys.get(index0+1));
             }
         }
-    return true;
+        return true;
     }
-//    返回值：
+    //    返回值：
 //      0:内部文件夹中含data的文件夹的path
 //      1:含data的叶子文件夹
     private String[] findSuitLeaf_remove(String path,String data,String[] s){               //寻找合适的叶子文件夹
@@ -391,7 +392,7 @@ public class BpFileTree {
             }
         }
     }
-//    向左合并，index对应:rp的index
+    //    向左合并，index对应:rp的index
     private void mergeWithBro(String lp,String rp,String parent,String[] paths,int index,String data) throws IOException {
 //      将右边的孩子放到左边
         LinkedList<String> rchildren = filp.getChildren(rp);
@@ -436,7 +437,7 @@ public class BpFileTree {
             filp.folderRename(parent,keys.get(1));
         }
     }
-//    输出树
+    //    输出树
     public void printTree(String path){
         if(path==null)return;
         LinkedList<String> keys = filp.getContext(path,"keys.txt");
@@ -450,7 +451,7 @@ public class BpFileTree {
             printTree(path+"\\"+child);
         }
     }
-//    遍历:拿到所有叶子结点的地址
+    //    遍历:拿到所有叶子结点的地址
     public LinkedList<String> getAllLeaves(String path){
         LinkedList<String> paths = new LinkedList<>();
         _getLeaves(path,paths);
@@ -459,7 +460,7 @@ public class BpFileTree {
 //        }
         return paths;
     }
-//    getAllLeaves的子函数
+    //    getAllLeaves的子函数
     public void _getLeaves(String path,LinkedList<String> paths){
         if(path==null)return;
         if(filp.exist(path+"\\data")){

@@ -1,11 +1,5 @@
 package com.bingo.data.fileUtil;
 
-
-import com.bingo.data.graph.ALGraph;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -16,6 +10,12 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+
+import com.bingo.data.graph.ALGraph;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 public class FileProcessor {
     public void createFolder(String target){
@@ -114,7 +114,7 @@ public class FileProcessor {
 //            System.out.println("The specified directory does not exist or is not a directory.");
         }
     }
-//    拿到keys.txt中所有的关键字数据
+    //    拿到keys.txt中所有的关键字数据
     public LinkedList<String> getContext(String path,String type){
 //        File file=new File(path+"\\keys.txt");
 //        if(!Files.exists(Paths.get("keys.txt"))) return new String[0];
@@ -150,7 +150,7 @@ public class FileProcessor {
 
         return strings;
     }
-//    拿到所有的children子文件,排除data文件
+    //    拿到所有的children子文件,排除data文件
     public LinkedList<String> getChildren(String path){
         // 创建File对象
         File directory = new File(path);
@@ -178,7 +178,7 @@ public class FileProcessor {
         }
         return children;
     }
-//    拿到所有的文件，排除文件夹
+    //    拿到所有的文件，排除文件夹
     public LinkedList<String> getChildFile(String path){
         // 创建File对象
         File directory = new File(path);
@@ -206,7 +206,7 @@ public class FileProcessor {
         }
         return children;
     }
-//    在路径上创建空的txt文件
+    //    在路径上创建空的txt文件
     public void txtCreate(String apath,String type){
         Path path = Paths.get(apath+"\\"+type);
 
@@ -222,7 +222,7 @@ public class FileProcessor {
             e.printStackTrace();
         }
     }
-//    在txt文件中插入值
+    //    在txt文件中插入值
     public void txtInsert(String path,int index,String data,String type,boolean ifRep) throws FileNotFoundException {
         LinkedList<String> keys=getContext(path,type);                         //拿到所有的key值
 //        ---------------------------------偷来的，密封-------------------------------------
@@ -244,7 +244,7 @@ public class FileProcessor {
             pw.println(data);
         pw.close();
     }
-//    追加数据
+    //    追加数据
     public void txtInsertBack(String path,String datas[],String type) throws FileNotFoundException {
         LinkedList<String> keys=getContext(path,type);                         //拿到所有的key值
 //        ---------------------------------偷来的，密封-------------------------------------
@@ -279,7 +279,7 @@ public class FileProcessor {
         }
         pw.close();
     }
-//    删除txt文件中对应的值,如果传入的data为空:则自动删除并返回最后一个值
+    //    删除txt文件中对应的值,如果传入的data为空:则自动删除并返回最后一个值
     public String txtDataRemove(String path,String data,String type) throws FileNotFoundException {
         LinkedList<String> keys=getContext(path,type);                         //拿到所有的key值
 //        ---------------------------------偷来的，密封-------------------------------------
@@ -302,7 +302,7 @@ public class FileProcessor {
         pw.close();
         return last;
     }
-//    删除txt文件中对应的index对应的值，并返回该值
+    //    删除txt文件中对应的index对应的值，并返回该值
     public String txtIndexRemove(String path,int index,String type) throws FileNotFoundException {
         LinkedList<String> keys=getContext(path,type);                         //拿到所有的key值
 //        ---------------------------------偷来的，密封-------------------------------------
@@ -325,7 +325,7 @@ public class FileProcessor {
         pw.close();
         return target;
     }
-//    替换txt文件中的值:将d1换成d2
+    //    替换txt文件中的值:将d1换成d2
     public void txtUpdate(String path,String d1,String d2,String type) throws FileNotFoundException {
         LinkedList<String> keys=getContext(path,type);                         //拿到所有的key值
 //        ---------------------------------偷来的，密封-------------------------------------
@@ -345,7 +345,7 @@ public class FileProcessor {
         }
         pw.close();
     }
-//    删除txt文件
+    //    删除txt文件
     public void txtRemove(String apath,String type) throws IOException {
         Path path = Paths.get(apath + "\\" + type);
         if(exist(apath + "\\" + type))
@@ -408,7 +408,7 @@ public class FileProcessor {
             e.printStackTrace();
         }
     }
-//    generateCSV的子函数，用于读csv文件
+    //    generateCSV的子函数，用于读csv文件
     public static LinkedList<LinkedList<String>> readCsv(String filePath) {
         LinkedList<LinkedList<String>> data = new LinkedList<>();
 
@@ -433,8 +433,8 @@ public class FileProcessor {
 
         return data;
     }
-//    将邻接表写入Json
-    public void saveToFileJson(ALGraph graph,String filePath) {
+    //    将邻接表写入Json
+    public void saveToFileJson(ALGraph graph, String filePath) {
 
         // 使用Gson将邻接表序列化为JSON字符串
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -448,7 +448,7 @@ public class FileProcessor {
             e.printStackTrace();
         }
     }
-//    从Json拿到邻接表
+    //    从Json拿到邻接表
     public ALGraph getFromFileJson(String filePath){
 
         ALGraph graph=new ALGraph();

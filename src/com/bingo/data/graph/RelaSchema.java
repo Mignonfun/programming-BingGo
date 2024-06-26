@@ -7,7 +7,7 @@ import com.bingo.data.fileUtil.FileProcessor;
 import java.util.LinkedList;
 
 public class RelaSchema {
-    FileProcessor filp =new FileProcessor();
+    FileProcessor filp=new FileProcessor();
     String path;        //对应json文件的地址
     ALGraph graph;      //json文件对应的图
     public RelaSchema(String path){
@@ -17,7 +17,7 @@ public class RelaSchema {
             graph = filp.getFromFileJson(path);
         }
     }
-//    通过Node.id添加结点
+    //    通过Node.id添加结点
     public boolean addNode(int id,String info){
         boolean success = graph.addNode(id, info);
         if(success){
@@ -25,7 +25,7 @@ public class RelaSchema {
         }
         return success;
     }
-//    自增方式添加结点
+    //    自增方式添加结点
     public boolean addNode(String info){
         boolean success = graph.addNode(info);
         if(success){
@@ -33,7 +33,7 @@ public class RelaSchema {
         }
         return success;
     }
-//    根据b+树索引添加顶点
+    //    根据b+树索引添加顶点
     public boolean addNode_byList(LinkedList<String> list){
         boolean success = graph.addNode_byList(list);
         if(success){
@@ -41,7 +41,7 @@ public class RelaSchema {
         }
         return success;
     }
-//    根据node.id添加边
+    //    根据node.id添加边
     public boolean addEdge(int u,int v){
         boolean success = graph.addEdge(u, v);
         if(success){
@@ -49,7 +49,7 @@ public class RelaSchema {
         }
         return success;
     }
-//    根据info添加边
+    //    根据info添加边
     public boolean addEdge(String uInfo,String vInfo){
         boolean success = graph.addEdge(uInfo, vInfo);
         if(success){
@@ -57,7 +57,7 @@ public class RelaSchema {
         }
         return success;
     }
-//    根据node.id删除顶点
+    //    根据node.id删除顶点
     public boolean removeNode(int u){
         boolean success = graph.removeNode(u);
         if(success){
@@ -65,7 +65,7 @@ public class RelaSchema {
         }
         return success;
     }
-//    根据info删除顶点
+    //    根据info删除顶点
     public boolean removeNode(String uInfo){
         int uIndex=graph.findNode(uInfo);
         if(uIndex<0) return false;
@@ -77,7 +77,7 @@ public class RelaSchema {
         }
         return success;
     }
-//    根据node.id删除边
+    //    根据node.id删除边
     public boolean removeEdge(int u,int v){
         boolean success = graph.removeEdge(u, v);
         if(success){
@@ -85,7 +85,7 @@ public class RelaSchema {
         }
         return success;
     }
-//    根据node.id删除边
+    //    根据node.id删除边
     public boolean removeEdge(String uInfo,String vInfo){
         int uIndex=graph.findNode(uInfo);
         int vIndex=graph.findNode(vInfo);
@@ -98,17 +98,27 @@ public class RelaSchema {
         }
         return success;
     }
-//    根据node.id拿到一个顶点的所有边
+    //    根据node.id拿到一个顶点的所有边
     public LinkedList<String> getAllEdge(int u){
         return graph.getAllEdge(u);
     }
-//    根据info拿到一个顶点的所有边
+    //    根据info拿到一个顶点的所有边
     public LinkedList<String> getAllEdge(String uInfo){
         int uIndex=graph.findNode(uInfo);
         int u=graph.vexs[uIndex].id;
         return graph.getAllEdge(u);
     }
-//    显示邻接表
+    //    根据node.id拿到一个顶点边的总数
+    public int getEdgeNum(int u){
+        return graph.getEdgeNum(u);
+    }
+    //    根据node.info拿到一个顶点边的总数
+    public int getEdgeNum(String uInfo){
+        int uIndex=graph.findNode(uInfo);
+        int u=graph.vexs[uIndex].id;
+        return graph.getEdgeNum(u);
+    }
+    //    显示邻接表
     public void showGraph(){
         graph.showGraph();
     }
