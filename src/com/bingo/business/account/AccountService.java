@@ -1,9 +1,11 @@
 package com.bingo.business.account;
 
 import com.bingo.business.management.Platform;
+import com.bingo.commons.enums.ResponseType;
 import com.bingo.commons.enums.RoleType;
-import com.bingo.commons.exception.BingoException;
 import com.bingo.commons.pojo.identity.*;
+import com.bingo.commons.utils.DBUtils;
+import com.bingo.commons.utils.GlobalFormatUtil;
 import com.bingo.commons.vo.ResultVO;
 
 /**
@@ -19,16 +21,26 @@ public class AccountService {
     //登录逻辑
     public static ResultVO<Role> login(String account, String pwd, RoleType roleType){
         Role role;
+        ResponseType responseType;
         switch (roleType){
-            case PLATFORM_ADMIN -> //todo 从存储结构中拿取对应的类型数据
-                //PlatformAdmin platformAdmin = getAdmin(account);
-                    role = new PlatformAdmin();
-            case MERCHANT -> role = new Merchant();
-            case PURCHASER -> role = new Purchaser();
-            default -> throw new BingoException("LoginService#login RoleType error");
+            case PLATFORM_ADMIN -> {
+                role = DBUtils.getAdmin(account);
+                responseType = ResponseType.ADMIN_LOGIN;
+            }
+            case MERCHANT ->{
+                role = DBUtils.getMerchant(account);
+                responseType = ResponseType.MERCHANT_LOGIN;
+            }
+            case PURCHASER ->{
+                role = DBUtils.getPurchaser(account);
+                responseType = ResponseType.PURCHASER_LOGIN;
+            }
+            default -> {
+                return ResultVO.fail(account +"登录失败");
+            }
         }
         if (pwd.equals(role.getPwd())) {
-            return ResultVO.success("登录成功",role);
+            return ResultVO.success(responseType.getCode(),"登录成功",role);
         }
         return ResultVO.fail(account +"登录失败");
     }
@@ -36,19 +48,39 @@ public class AccountService {
     //User注册逻辑
     public static  <T extends User> ResultVO<T> registerUser(String name,String account, String pwd,RoleType roleType){
         T user = platform.createRole(roleType);
-        user.setAccount(account);
-        user.setPwd(pwd);
-        user.setName(name);
-        //todo 存入存储结构中 其余元素为默认
+        if (roleType == RoleType.PURCHASER){
+            Purchaser purchaser= (Purchaser) user;
+            purchaser.setPId(DBUtils.getIncreaseId());
+            purchaser.setAccount(account);
+            purchaser.setPwd(pwd);
+            purchaser.setName(name);
+            purchaser.setBalance(0.0);
+            purchaser.setAddresses("无地址");
+            purchaser.setCreateTime(GlobalFormatUtil.getNowDateString());
+
+            DBUtils.insertPurchaser(purchaser);
+        }else if (roleType == RoleType.MERCHANT){
+            Merchant merchant= (Merchant) user;
+            merchant.setMId(DBUtils.getIncreaseId());
+            merchant.setAccount(account);
+            merchant.setPwd(pwd);
+            merchant.setName(name);
+            merchant.setIncome(0.0);
+            merchant.setFollowers(0);
+            merchant.setCreateTime(GlobalFormatUtil.getNowDateString());
+            DBUtils.insertMerchant(merchant);
+        }
+
         return ResultVO.success("创建用户成功！" + user);
     }
 
     //admin注册逻辑
     public static <T extends Admin> ResultVO<T> registerAdmin(String account, String pwd,RoleType roleType){
-        T admin = platform.createRole(roleType);
+        PlatformAdmin admin = platform.createRole(roleType);
+        admin.setAId(DBUtils.getIncreaseId());
         admin.setAccount(account);
         admin.setPwd(pwd);
-        //todo 存入存储结构中 其余元素为默认
+        DBUtils.insertAdmin(admin);
         return ResultVO.success("创建用户成功！" + admin);
     }
 
