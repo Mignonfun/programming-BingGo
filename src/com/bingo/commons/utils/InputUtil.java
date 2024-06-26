@@ -37,6 +37,28 @@ public class InputUtil {
         }
         return input;
     }
+    public static int inputChar2(int start,int scope) {
+        int input;
+        while (true) {
+            System.out.println("请输入您的选择: ");
+            if (sc.hasNextInt()) {
+                input = sc.nextInt();
+                if (input > start && input <= scope) {
+                    break;
+                }
+                System.out.println("无效输入，请重新输入！");
+            } else if (sc.hasNext()) {
+                String s = sc.next();
+                if (s.equals("q")) {
+                    input = start;
+                    break;
+                }
+                System.out.println("无效输入，请重新输入！");
+            }
+
+        }
+        return input;
+    }
 
     /**
      * 输入一个字符串
