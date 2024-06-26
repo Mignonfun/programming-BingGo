@@ -9,7 +9,9 @@ public enum ResponseType {
 
     SUCCESS("1","success"),
     FAIL("0", "fail"),
-
+    ADMIN_LOGIN("L0001","管理员登录"),
+    PURCHASER_LOGIN("L0002","用户登录"),
+    MERCHANT_LOGIN("L0003","商家登录"),
 
 
 
