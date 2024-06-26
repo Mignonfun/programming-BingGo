@@ -77,14 +77,18 @@ public class Table {
         return datas;
     }
     //    单个数据导入
-    public void insert(LinkedList<String> list) throws IOException {
+    public void insert(LinkedList<String> list) {
+        try {
 //        在每个索引中都导入这个数据
-        for(int i=0;i<20;i++){
-            if(bp[i]!=null){
-                bp[i].insert(list.get(i),list.toArray(new String[0]));
+            for(int i=0;i<20;i++){
+                if(bp[i]!=null){
+                    bp[i].insert(list.get(i),list.toArray(new String[0]));
+                }
             }
+            generateCSV();                                          //生成csv
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        generateCSV();                                          //生成csv
     }
     //    单个数据删除
     public boolean removeByIdx(LinkedList<String> list,int idx) throws IOException {
@@ -109,19 +113,23 @@ public class Table {
         return res;
     }
     //    单个数据修改
-    public boolean updateByFristIdx(LinkedList<String> list) throws IOException {
-        boolean ifsuccess=false;
+    public boolean updateByFristIdx(LinkedList<String> list){
+        try {
+            boolean ifsuccess=false;
 //        在第一个索引中更新这个数据
-        for(int i=0;i<20;i++){
-            if(bp[i]!=null){
-                ifsuccess=bp[i].update(list.get(i),list.toArray(new String[0]));
-                if(!ifsuccess)return ifsuccess;
+            for(int i=0;i<20;i++){
+                if(bp[i]!=null){
+                    ifsuccess=bp[i].update(list.get(i),list.toArray(new String[0]));
+                    if(!ifsuccess)return ifsuccess;
+                }
+                break;
             }
-            break;
+            generateCSV();                  //生成csv
+            importByCSV();                  //通过csv修改其他索引，达到修改所有索引的目的
+            return ifsuccess;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        generateCSV();                  //生成csv
-        importByCSV();                  //通过csv修改其他索引，达到修改所有索引的目的
-        return ifsuccess;
     }
     //    生成or更新csv文件:返回csv文件的地址
     private String generateCSV() throws IOException {
@@ -135,9 +143,9 @@ public class Table {
         if(bp[colIdx]==null)return null;
         String p_csv=path+"\\data.csv";
         LinkedList<String> allLeaves = bp[colIdx].getAllLeaves(bp[colIdx].root);
-        for(String leaf:allLeaves){
-            System.out.println(leaf);
-        }
+//        for(String leaf:allLeaves){
+//            System.out.println(leaf);
+//        }
         //        用于存储所有txt数据
         LinkedList<LinkedList<String>> allTxtContexts = new LinkedList<>();
         for(String leaf:allLeaves){
@@ -152,12 +160,12 @@ public class Table {
         //        将数据放入scv
         filp.writeDataToCSVFile(allTxtContexts,p_csv);
 
-        //        测试========================
-        for(LinkedList<String> txtContxt:allTxtContexts){
-            for (String s:txtContxt){
-                System.out.println(s);
-            }
-        }
+//        //        测试========================
+//        for(LinkedList<String> txtContxt:allTxtContexts){
+//            for (String s:txtContxt){
+//                System.out.println(s);
+//            }
+//        }
         //        koko made=====================
         return path+"\\data.csv";
     }
@@ -212,6 +220,27 @@ public class Table {
 //            }
 //            System.out.println();
 //        }
+        return true;
+    }
+
+    //    根据csv文件拿到所有数据
+    public LinkedList<LinkedList<String>> getAllByCSV() throws IOException {
+        if(!filp.exist(path+"\\data.csv"))return null;
+        LinkedList<LinkedList<String>> linkedLists = filp.readCsv(path + "\\data.csv");
+//        存在，那么：
+        return linkedLists;
+    }
+    //    根据csv文件在控制台显示所有数据
+    public boolean showAllByCSV() throws IOException {
+        if(!filp.exist(path+"\\data.csv"))return false;
+        LinkedList<LinkedList<String>> linkedLists = filp.readCsv(path + "\\data.csv");
+        //        存在，那么：
+        for(LinkedList<String> linkedList:linkedLists){
+            for(String s:linkedList){
+                System.out.print(s+"\t");
+            }
+            System.out.println();
+        }
         return true;
     }
 }

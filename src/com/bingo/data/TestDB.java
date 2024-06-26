@@ -19,12 +19,12 @@ public class TestDB {
 //        test03();
 //        test04();
 //        test05();
-        test06();
+//        test06();
 //        test07();
 //        test08();
 //        test09();
 //        test10();
-//        test11();
+        test11();
 //        test12(new ALGraph());
 //        test13();
     }
@@ -44,25 +44,26 @@ public class TestDB {
     }
     //    测试find
     public static void test08() throws IOException {
-        MyDB db = new MyDB("D:\\myDB");
+        MyDB db = new MyDB("myDB");
         Table user = db.createTable("user");
 //        通过id查询
-        LinkedList<String> byIdx = user.findByIdx(0, "23");
+        LinkedList<String> byIdx = user.findByIdx(0, "025");
         for(String s:byIdx){
             System.out.print(s+" ");
         }
         System.out.println();
-//        通过name查询
-        LinkedList<String> linming = user.findByIdx(1, "Linming");
-        for(String s:linming){
-            System.out.print(s+" ");
-        }
-        System.out.println();
+////        通过name查询
+//        LinkedList<String> linming = user.findByIdx(1, "Linming");
+//        for(String s:linming){
+//            System.out.print(s+" ");
+//        }
+//        System.out.println();
     }
     //    测试insert
     public static void test09() throws IOException {
         MyDB db = new MyDB("myDB");
         Table user = db.createTable("user");
+        user.createIndex(0);
         LinkedList<String> in=new LinkedList<>();
         in.add("025");
         in.add("DDD");
@@ -73,7 +74,7 @@ public class TestDB {
     }
     //    测试remove
     public static void test10() throws IOException {
-        MyDB db = new MyDB("D:\\myDB");
+        MyDB db = new MyDB("myDB");
         Table user = db.createTable("user");
         LinkedList<String> in=new LinkedList<>();
         in.add("025");
@@ -89,14 +90,10 @@ public class TestDB {
     }
     //    测试update
     public static void test11() throws IOException {
-        MyDB db = new MyDB("D:\\myDB");
+        MyDB db = new MyDB("myDB");
         Table user = db.createTable("user");
-        LinkedList<String> in=new LinkedList<>();
-        in.add("025");
-        in.add("DdddD");
-        in.add("female");
-        in.add("008");
-        in.add("liben");
+        LinkedList<String> in = user.findByIdx(0, "025");
+        in.add("1231");
         if(!user.updateByFristIdx(in)){
             System.out.println("not good");
         }else System.out.println("good");
