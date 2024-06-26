@@ -2,7 +2,7 @@ package com.bingo;
 
 import com.bingo.commons.pojo.identity.Role;
 import com.bingo.commons.vo.ResultVO;
-import com.bingo.menu.Main;
+import com.bingo.menu.Panel;
 
 /**
  * @author nia
@@ -13,12 +13,7 @@ public class Client {
 
     public static void main(String[] args) {
         while (true){
-            ResultVO<Role> resultVO = Main.start();
-            if (resultVO.getData() == null){
-                continue;
-            }
-
-
+            Panel.start();
         }
     }
 
