@@ -1,5 +1,6 @@
 package com.bingo.commons.pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class Cart {
     /**
      * 用户id，用户与购物车一一对应
      */
-    private Integer uid;
+    private String uid;
     /**
      * 总计数量
      */
@@ -20,23 +21,23 @@ public class Cart {
     /**
      * 总计价格
      */
-    private Integer total;
-    /**
-     * 商品Map
-     * 商品号与商品数量的映射
-     */
-    private Map<Integer,Integer> goodsMap;
+    private Double total;
     /**
      * 商品id列表
      */
-    private List<Integer> gIdList;
+    private List<Goods> goodsList;
 
+    public Cart() {
+        count = 0;
+        total = 0.0;
+        goodsList = new ArrayList<>();
+    }
 
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -48,27 +49,25 @@ public class Cart {
         this.count = count;
     }
 
-    public Integer getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 
-    public Map<Integer, Integer> getGoodsMap() {
-        return goodsMap;
+    public List<Goods> getGoodsList() {
+        return goodsList;
     }
 
-    public void setGoodsMap(Map<Integer, Integer> goodsMap) {
-        this.goodsMap = goodsMap;
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
     }
 
-    public List<Integer> getgIdList() {
-        return gIdList;
-    }
-
-    public void setgIdList(List<Integer> gIdList) {
-        this.gIdList = gIdList;
+    public void calcTotal() {
+        total = goodsList.stream()
+                .mapToDouble(Goods::getPrice)
+                .sum();
     }
 }

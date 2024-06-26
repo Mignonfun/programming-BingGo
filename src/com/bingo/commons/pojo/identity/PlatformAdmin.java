@@ -6,13 +6,13 @@ package com.bingo.commons.pojo.identity;
  * @Date 2024/6/4
  */
 public class PlatformAdmin extends Admin{
-    private Integer aId;
+    private String aId;
 
-    public Integer getAId() {
+    public String getAId() {
         return aId;
     }
 
-    public void setAId(Integer aId) {
+    public void setAId(String aId) {
         this.aId = aId;
     }
 }

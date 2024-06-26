@@ -6,26 +6,33 @@ package com.bingo.commons.pojo;
  * @Date 2024/6/4
  */
 public class Goods {
-    private Integer gId;
+    private String gId;
     private String gName;
     private Double price;
-    private Integer sId;
+    private String sId;
 
-    public Integer getGId() {
-
+    public String getgId() {
         return gId;
     }
 
-    public void setGId(Integer gId) {
+    public void setgId(String gId) {
         this.gId = gId;
     }
 
-    public String getGName() {
+    public String getgName() {
         return gName;
     }
 
-    public void setGName(String gName) {
+    public void setgName(String gName) {
         this.gName = gName;
+    }
+
+    public String getsId() {
+        return sId;
+    }
+
+    public void setsId(String sId) {
+        this.sId = sId;
     }
 
     public Double getPrice() {
@@ -36,11 +43,21 @@ public class Goods {
         this.price = price;
     }
 
-    public Integer getsId() {
-        return sId;
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "gId=" + gId +
+                ", gName='" + gName + '\'' +
+                ", price=" + price +
+                ", sId=" + sId +
+                '}';
     }
 
-    public void setsId(Integer sId) {
+    public Goods(String gId, String sId, String gName, Double price) {
+        this.gId = gId;
+        this.gName = gName;
+        this.price = price;
         this.sId = sId;
     }
 }

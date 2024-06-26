@@ -6,16 +6,16 @@ package com.bingo.commons.pojo.identity;
  * @Date 2024/6/4
  */
 public class Merchant extends User {
-    private Integer mId;
+    private String mId;
     private Integer followers;
 
     private Double income;
 
-    public Integer getMId() {
+    public String getMId() {
         return mId;
     }
 
-    public void setMId(Integer mId) {
+    public void setMId(String mId) {
         this.mId = mId;
     }
 

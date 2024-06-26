@@ -6,6 +6,7 @@ package com.bingo.commons.pojo.identity;
  * @Date 2024/6/4
  */
 public abstract class User extends Role{
+
     protected String name;
 
     public String getName() {
@@ -14,5 +15,15 @@ public abstract class User extends Role{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", account='" + account + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
     }
 }
