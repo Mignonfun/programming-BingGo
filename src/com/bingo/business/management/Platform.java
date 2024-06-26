@@ -1,8 +1,10 @@
 package com.bingo.business.management;
 
 import com.bingo.business.management.factory.RoleFactory;
+import com.bingo.business.management.strategy.PaymentContext;
+import com.bingo.business.management.strategy.PaymentStrategy;
+import com.bingo.commons.enums.ActivityType;
 import com.bingo.commons.enums.RoleType;
-import com.bingo.commons.exception.BingoException;
 import com.bingo.commons.pojo.identity.Role;
 
 /**
@@ -44,6 +46,15 @@ public class Platform {
         return factory.createRole(roleType);
     }
 
+    public Double paymentCalc(Double price, ActivityType activityType){
+        PaymentContext paymentContext = null;
+        try {
+            paymentContext = new PaymentContext(activityType.getaClass().newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return paymentContext.paymentProcess(price);
+    }
 
 
 }
